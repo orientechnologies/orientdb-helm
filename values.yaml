@@ -1,3 +1,21 @@
+namespace: orientdb
+
+master:
+  name: orientdb
+  serviceName: orientdb
+  labelValue: orientdb
+  replicas: 3
+
+replica:
+  name: orientdb-replica
+  serviceName: orientdb-replica
+  labelValue: orientdb-replica
+  replicas: 1
+
+httpPort: 2480
+binaryPort: 2424
+hazelcastPort: 2434
+
 image:
   repository: nginx
   pullPolicy: IfNotPresent
