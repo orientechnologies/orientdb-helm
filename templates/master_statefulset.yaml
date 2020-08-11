@@ -37,32 +37,29 @@ spec:
         app: {{ .Values.master.labelValue }}
         orientdb-cluster-member: "true"
     spec:
-      serviceAccountName: hazelcast-k8s
+      serviceAccountName: {{ .Values.serviceAccount.name }}
       terminationGracePeriodSeconds: 30
       containers:
       - name: orientdb
-        command: ["dserver.sh", "-DkubernetesNamespace=${testNamespace}"]
-        image: ${orientdbDockerImage}
-        imagePullPolicy: Always
-        env:
-        - name: ORIENTDB_NODE_NAME
-          value: ${orientdbNodeName}
+        command: ["dserver.sh"]
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
         ports:
-        - containerPort: ${orientdbHttpPort}
+        - containerPort: {{ .Values.httpPort }}
           protocol: TCP
-        - containerPort: ${orientdbBinaryPort}
+        - containerPort: {{ .Values.binaryPort }}
           protocol: TCP
-        - containerPort: ${orientdbHazelcastPort}
+        - containerPort: {{ .Values.hazelcastPort }}
           protocol: TCP
         livenessProbe:
           tcpSocket:
-            port: ${orientdbBinaryPort}
+            port: {{ .Values.binaryPort }}
           initialDelaySeconds: 15
           periodSeconds: 20
           failureThreshold: 5
         readinessProbe:
           tcpSocket:
-            port: ${orientdbBinaryPort}
+            port: {{ .Values.binaryPort }}
           initialDelaySeconds: 10
           periodSeconds: 20
           failureThreshold: 5
@@ -71,12 +68,7 @@ spec:
           mountPath: /orientdb/databases
         - name: config
           mountPath: /orientdb/config
-      # At some point, it would be better to fix resources.
-      #    resources:
-      #      requests:
-      #      limits:
-      #
-      # OrientDB needs the config files (at leaset server config) to be modifiable. Mounting directly from the configMap
+      # OrientDB needs the config files (at least server config) to be modifiable. Mounting directly from the configMap
       # would result in a read-only config folder which can crash the server.
       initContainers:
       - name: copy-configs

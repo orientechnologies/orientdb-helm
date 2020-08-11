@@ -10,69 +10,36 @@ replica:
   name: orientdb-replica
   serviceName: orientdb-replica
   labelValue: orientdb-replica
-  replicas: 1
+  replicas: 0
 
 httpPort: 2480
 binaryPort: 2424
 hazelcastPort: 2434
 
-image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+createRootUser: true
+rootPassword: root
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+image:
+  repository: orientdb
+  tag: 3.1.1
+  pullPolicy: IfNotPresent
+
+hazelcastDiscovery:
+  podLabel:
+    name: orientdb-cluster-member
+    value: true
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: true
-  # Annotations to add to the service account
-  annotations: {}
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name: ""
+  # The name of the service account to use or create.
+  name: hazelcast-k8s
 
-podAnnotations: {}
+orientdbConfigMapName: orientdb-configmap
 
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+log:
 
 service:
   type: ClusterIP
   port: 80
 
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
-resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
