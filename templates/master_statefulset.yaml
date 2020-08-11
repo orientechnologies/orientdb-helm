@@ -84,21 +84,21 @@ spec:
       volumes:
       - name: orientdb-config-cm-vol
         configMap:
-          name: ${orientdbConfigCm}
+          name: {{ .Values.orientdbConfigMapName }}
   volumeClaimTemplates:
   - metadata:
       name: databases
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: ${databaseVolumeStorageClass}
+      storageClassName: {{ .Values.volumes.databases.storageClass }}
       resources:
         requests:
-          storage: ${databaseVolSize}Gi
+          storage: {{ .Values.volumes.databases.size }}
   - metadata:
       name: config
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: ${configVolumeStorageClass}
+      storageClassName: {{ .Values.volumes.config.storageClass }}
       resources:
         requests:
-          storage: 100Mi
+          storage: {{ .Values.volumes.config.size }}

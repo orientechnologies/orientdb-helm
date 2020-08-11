@@ -39,6 +39,14 @@ orientdbConfigMapName: orientdb-configmap
 
 log:
 
+volumes:
+  databases:
+    storageClass: ""
+    size: 2Gi
+  config:
+    storageClass: ""
+    size: 100Mi
+
 service:
   type: ClusterIP
   port: 80
