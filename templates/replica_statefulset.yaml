@@ -1,2 +1,0 @@
-{{- if gt .Values.replica.replicas 0 -}}
-{{- end -}}
