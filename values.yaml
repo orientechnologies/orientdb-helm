@@ -4,7 +4,7 @@ master:
   name: orientdb
   serviceName: orientdb
   labelValue: orientdb
-  replicas: 3
+  replicas: 2
 
 replica:
   name: orientdb-replica
@@ -48,6 +48,6 @@ volumes:
     size: 100Mi
 
 service:
-  type: ClusterIP
-  port: 80
+  nodePort:
+    create: true
 

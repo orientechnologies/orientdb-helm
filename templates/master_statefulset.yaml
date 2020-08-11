@@ -35,7 +35,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.master.labelValue }}
-        orientdb-cluster-member: "true"
+        {{ .Values.hazelcastDiscovery.podlabel.name }}: {{ .Values.hazelcastDiscovery.podlabel.value | quote }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       terminationGracePeriodSeconds: 30
