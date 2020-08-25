@@ -94,6 +94,14 @@ data:
                     <parameter name="profilerManaged" value="true"/>
                 </parameters>
             </handler>
+            <!-- AUTOMATIC BACKUP, TO TURN ON SET THE 'ENABLED' PARAMETER TO 'true' -->
+            <handler class="com.orientechnologies.orient.server.handler.OAutomaticBackup">
+                <parameters>
+                    <parameter name="enabled" value="false"/>
+                    <!-- LOCATION OF JSON CONFIGURATION FILE -->
+                    <parameter name="config" value="${ORIENTDB_HOME}/config/automatic-backup.json"/>
+                </parameters>
+            </handler>
             <!-- SERVER SIDE SCRIPT INTERPRETER. WARNING, THIS CAN BE A SECURITY HOLE BECAUSE MALICIOUS CODE COULD BE INJECTED.
                 ENABLE IT ONLY IF CLIENTS ARE TRUSTED, TO TURN ON SET THE 'ENABLED' PARAMETER TO 'true' -->
             <handler
@@ -103,6 +111,13 @@ data:
                     <parameter name="allowedLanguages" value="SQL"/>
                     <!--  Comma separated packages  allowed in JS scripts eg. java.math.*, java.util.ArrayList -->
                     <parameter name="allowedPackages" value=""/>
+                </parameters>
+            </handler>
+            <!-- CUSTOM SQL FUNCTIONS -->
+            <handler class="com.orientechnologies.orient.server.handler.OCustomSQLFunctionPlugin">
+                <parameters>
+                    <!-- LOCATION OF JSON CONFIGURATION FILE -->
+                    <parameter name="config" value="${ORIENTDB_HOME}/config/custom-sql-functions.json"/>
                 </parameters>
             </handler>
 
@@ -212,3 +227,25 @@ data:
     # Number of output files to cycle through, by appending an
     # integer to the base file name:
     java.util.logging.FileHandler.count=10
+  custom-sql-functions.json: |
+    {
+      "enabled": {{ .Values.customSqlFunctions.enabled }},
+      "functions": [
+        //    {
+        //      "prefix": "the_function_prefix here",
+        //      "class": "your.class.with.static.methods.Here"
+        //    }
+      ]
+    }
+  automatic-backup.json: |
+    {
+      "enabled": {{ .Values.automaticBackup.enabled }},
+      "mode": "FULL_BACKUP",
+      "exportOptions": "",
+      "delay": "4h",
+      "firstTime": "23:00:00",
+      "targetDirectory": "backup",
+      "targetFileName": "${DBNAME}-${DATE:yyyyMMddHHmmss}.zip",
+      "compressionLevel": 9,
+      "bufferSize": 1048576
+    }

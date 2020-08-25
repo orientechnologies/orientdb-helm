@@ -6,6 +6,12 @@ master:
   labelValue: orientdb
   replicas: 2
 
+customSqlFunctions:
+  enabled: true
+
+automaticBackup:
+  enabled: false
+
 replica:
   name: orientdb-replica
   serviceName: orientdb-replica
