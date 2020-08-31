@@ -19,31 +19,31 @@ data:
     		xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.10.xsd"
     		xmlns="http://www.hazelcast.com/schema/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     	<group>
-    		<name>orientdb</name>
-    		<password>orientdb</password>
+    		<name>{{ .Values.hazelcast.group.name }}</name>
+    		<password>{{ .Values.hazelcast.group.password }}</password>
     	</group>
     	<properties>
-    		<property name="hazelcast.phone.home.enabled">false</property>
-    		<property name="hazelcast.mancenter.enabled">false</property>
-    		<property name="hazelcast.memcache.enabled">false</property>
-    		<property name="hazelcast.rest.enabled">false</property>
-    		<property name="hazelcast.wait.seconds.before.join">5</property>
-    		<property name="hazelcast.operation.thread.count">1</property>
-    		<property name="hazelcast.io.thread.count">1</property>
-    		<property name="hazelcast.operation.generic.thread.count">1</property>
-    		<property name="hazelcast.client.event.thread.count">1</property>
-    		<property name="hazelcast.event.thread.count">1</property>
-    		<property name="hazelcast.heartbeat.interval.seconds">5</property>
-    		<property name="hazelcast.max.no.heartbeat.seconds">30</property>
-    		<property name="hazelcast.merge.next.run.delay.seconds">15</property>
+    		<property name="hazelcast.phone.home.enabled">{{ .Values.hazelcast.properties.phoneHomeEnabled }}</property>
+    		<property name="hazelcast.mancenter.enabled">{{ .Values.hazelcast.properties.mancenterEnabled }}</property>
+    		<property name="hazelcast.memcache.enabled">{{ .Values.hazelcast.properties.memcacheEnabled }}</property>
+    		<property name="hazelcast.rest.enabled">{{ .Values.hazelcast.properties.restEnabled }}</property>
+    		<property name="hazelcast.wait.seconds.before.join">{{ .Values.hazelcast.properties.waitSecondsBeforeJoin }}</property>
+    		<property name="hazelcast.operation.thread.count">{{ .Values.hazelcast.properties.operationThreadCount }}</property>
+    		<property name="hazelcast.io.thread.count">{{ .Values.hazelcast.properties.ioThreadCount }}</property>
+    		<property name="hazelcast.operation.generic.thread.count">{{ .Values.hazelcast.properties.operationGenericThreadCount }}</property>
+    		<property name="hazelcast.client.event.thread.count">{{ .Values.hazelcast.properties.clientEventThreadCount }}</property>
+    		<property name="hazelcast.event.thread.count">{{ .Values.hazelcast.properties.eventThreadCount }}</property>
+    		<property name="hazelcast.heartbeat.interval.seconds">{{ .Values.hazelcast.properties.heartbeatIntervalSeconds }}</property>
+    		<property name="hazelcast.max.no.heartbeat.seconds">{{ .Values.hazelcast.properties.maxNoHeartbeatSeconds }}</property>
+    		<property name="hazelcast.merge.next.run.delay.seconds">{{ .Values.hazelcast.properties.mergeNextRunDelaySeconds }}</property>
     	</properties>
     	<network>
-    		<port auto-increment="true">{{ .Values.hazelcastPort }}</port>
+    		<port auto-increment="false">{{ .Values.hazelcast.network.port }}</port>
     		<join>
     			<kubernetes enabled="true">
-                   <pod-label-name>{{ .Values.hazelcastDiscovery.podLabel.name }}</pod-label-name>
-                   <pod-label-value>{{ .Values.hazelcastDiscovery.podLabel.value }}</pod-label-value>
-                   <service-port>{{ .Values.hazelcastPort }}</service-port>
+                   <pod-label-name>{{ .Values.hazelcast.discoverypodLabel.name }}</pod-label-name>
+                   <pod-label-value>{{ .Values.hazelcast.discoverypodLabel.value }}</pod-label-value>
+                   <service-port>{{ .Values.hazelcast.network.port }}</service-port>
                    <namespace>{{ .Values.namespace }}</namespace>
                 </kubernetes>
                 <multicast enabled="false">

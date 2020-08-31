@@ -11,7 +11,6 @@ httpPort: 2480
 httpNodePort: 30080
 binaryPort: 2424
 binaryNodePort: 30024
-hazelcastPort: 2434
 
 createRootUser: true
 rootPassword: root
@@ -31,10 +30,30 @@ customSqlFunctions:
 automaticBackup:
   enabled: false
 
-hazelcastDiscovery:
-  podLabel:
-    name: orientdb-cluster-member
-    value: true
+hazelcast:
+  network:
+    port: 2434
+  group:
+    name: orientdb
+    password: orientdb
+  properties:
+    phoneHomeEnabled: false
+    mancenterEnabled: false
+    memcacheEnabled: false
+    restEnabled: false
+    waitSecondsBeforeJoin: 5
+    operationThreadCount: 1
+    ioThreadCount: 1
+    operationGenericThreadCount: 1
+    clientEventThreadCount: 1
+    eventThreadCount: 1
+    heartbeatIntervalSeconds: 5
+    maxNoHeartbeatSeconds: 30
+    mergeNextRunDelaySeconds: 15
+  discovery:
+    podLabel:
+      name: orientdb-cluster-member
+      value: true
 
 serviceAccount:
   # Specifies whether a service account should be created
