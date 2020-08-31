@@ -2,10 +2,10 @@ apiVersion: v1
 kind: Service
 metadata:
   namespace: {{ .Values.namespace }}
-  name: {{ .Values.master.serviceName }}
+  name: {{ .Values.serviceName }}
   # labels could be a template function call
   labels:
-    app: {{ .Values.master.labelValue }}
+    app: {{ .Values.labelValue }}
 spec:
   ports:
   - port: {{ .Values.httpPort }}
@@ -16,25 +16,25 @@ spec:
     name: hazelcast
   clusterIP: None
   selector:
-    app: {{ .Values.master.labelValue }}
+    app: {{ .Values.labelValue }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   namespace: {{ .Values.namespace }}
-  name: {{ .Values.master.name }}
+  name: {{ .Values.statefulSetName }}
   labels:
-    app: {{ .Values.master.labelValue }}
+    app: {{ .Values.labelValue }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.master.labelValue }}
-  replicas: {{ .Values.master.replicas }}
-  serviceName: {{ .Values.master.serviceName }}
+      app: {{ .Values.labelValue }}
+  replicas: {{ .Values.servers }}
+  serviceName: {{ .Values.serviceName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.master.labelValue }}
+        app: {{ .Values.labelValue }}
         {{ .Values.hazelcastDiscovery.podLabel.name }}: {{ .Values.hazelcastDiscovery.podLabel.value | quote }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}

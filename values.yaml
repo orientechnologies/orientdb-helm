@@ -1,22 +1,11 @@
+# Kubernetes namespace to deploy OrientDB cluster
 namespace: orientdb
 
-master:
-  name: orientdb
-  serviceName: orientdb
-  labelValue: orientdb
-  replicas: 2
-
-customSqlFunctions:
-  enabled: true
-
-automaticBackup:
-  enabled: false
-
-replica:
-  name: orientdb-replica
-  serviceName: orientdb-replica
-  labelValue: orientdb-replica
-  replicas: 0
+statefulSetName: orientdb
+serviceName: orientdb
+labelValue: orientdb
+# number of servers in the cluster
+servers: 2
 
 httpPort: 2480
 httpNodePort: 30080
@@ -27,10 +16,20 @@ hazelcastPort: 2434
 createRootUser: true
 rootPassword: root
 
+orientdbConfigMapName: orientdb-configmap
+
+log:
+
 image:
   repository: orientdb
   tag: 3.1.1
   pullPolicy: IfNotPresent
+
+customSqlFunctions:
+  enabled: true
+
+automaticBackup:
+  enabled: false
 
 hazelcastDiscovery:
   podLabel:
@@ -42,10 +41,6 @@ serviceAccount:
   create: true
   # The name of the service account to use or create.
   name: hazelcast-k8s
-
-orientdbConfigMapName: orientdb-configmap
-
-log:
 
 volumes:
   databases:

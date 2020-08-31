@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.master.serviceName }}-service
+  name: {{ .Values.serviceName }}-service
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.master.labelValue }}
+    app: {{ .Values.labelValue }}
 spec:
   type: NodePort
   ports:
@@ -16,5 +16,5 @@ spec:
     port: {{ .Values.httpPort }}
     nodePort: {{ .Values.httpNodePort }}
   selector:
-    app: {{ .Values.master.labelValue }}
+    app: {{ .Values.labelValue }}
 {{- end -}}
