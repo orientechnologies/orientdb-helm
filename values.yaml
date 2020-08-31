@@ -55,6 +55,14 @@ hazelcast:
       name: orientdb-cluster-member
       value: true
 
+distributedDB:
+  defaultConfig:
+    autoDeploy: true
+    readQuorum: 1
+    writeQuorum: majority
+    readYourWrites: true
+    newNodeStrategy: dynamic
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

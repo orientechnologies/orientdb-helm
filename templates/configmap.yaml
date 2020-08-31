@@ -57,11 +57,11 @@ data:
 
   default-distributed-db-config.json: |
     {
-      "autoDeploy": true,
-      "readQuorum": 1,
-      "writeQuorum": "majority",
-      "readYourWrites": true,
-      "newNodeStrategy": "dynamic",
+      "autoDeploy": {{ .Values.distributedDB.defaultConfig.autoDeploy }},
+      "readQuorum": {{ .Values.distributedDB.defaultConfig.readQuorum }},
+      "writeQuorum": "{{ .Values.distributedDB.defaultConfig.writeQuorum }}",
+      "readYourWrites": {{ .Values.distributedDB.defaultConfig.readYourWrites }},
+      "newNodeStrategy": "{{ .Values.distributedDB.defaultConfig.newNodeStrategy }}",
       "servers": {
         "*": "master"
       },
