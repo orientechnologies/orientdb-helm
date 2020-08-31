@@ -97,7 +97,7 @@ data:
             <!-- AUTOMATIC BACKUP, TO TURN ON SET THE 'ENABLED' PARAMETER TO 'true' -->
             <handler class="com.orientechnologies.orient.server.handler.OAutomaticBackup">
                 <parameters>
-                    <parameter name="enabled" value="false"/>
+                    <parameter name="enabled" value="{{ .Values.automaticBackup.enabled }}"/>
                     <!-- LOCATION OF JSON CONFIGURATION FILE -->
                     <parameter name="config" value="${ORIENTDB_HOME}/config/automatic-backup.json"/>
                 </parameters>
@@ -203,30 +203,15 @@ data:
   orientdb-server-log.properties: |
     # Specify the handlers to create in the root logger
     # (all loggers are children of the root logger)
-    # The following creates two handlers
-    handlers = java.util.logging.ConsoleHandler, java.util.logging.FileHandler
+    handlers = java.util.logging.ConsoleHandler
 
     # Set the default logging level for the root logger
-    .level = INFO
-    com.orientechnologies.level = INFO
-    com.orientechnologies.orient.server.distributed.level = INFO
+    .level = {{ .Values.log.rootLevel }}
+    com.orientechnologies.level = {{ .Values.log.orientLevel }}
+    com.orientechnologies.orient.server.distributed.level = {{ .Values.log.orientDistributedLevel }}
 
-    # Set the default logging level for new ConsoleHandler instances
-    java.util.logging.ConsoleHandler.level = INFO
     # Set the default formatter for new ConsoleHandler instances
     java.util.logging.ConsoleHandler.formatter = com.orientechnologies.common.log.OAnsiLogFormatter
-
-    # Set the default logging level for new FileHandler instances
-    java.util.logging.FileHandler.level = INFO
-    # Naming style for the output file
-    java.util.logging.FileHandler.pattern=../log/orient-server.log
-    # Set the default formatter for new FileHandler instances
-    java.util.logging.FileHandler.formatter = com.orientechnologies.common.log.OLogFormatter
-    # Limiting size of output file in bytes:
-    java.util.logging.FileHandler.limit=10000000
-    # Number of output files to cycle through, by appending an
-    # integer to the base file name:
-    java.util.logging.FileHandler.count=10
   custom-sql-functions.json: |
     {
       "enabled": {{ .Values.customSqlFunctions.enabled }},

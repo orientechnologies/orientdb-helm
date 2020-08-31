@@ -17,7 +17,13 @@ rootPassword: root
 
 orientdbConfigMapName: orientdb-configmap
 
+# Log levels: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
 log:
+  rootLevel: INFO
+  # Used for com.orientechnologies.*
+  orientLevel: INFO
+  # Used for com.orientechnologies.orient.server.distributed.*
+  orientDistributedLevel: INFO
 
 image:
   repository: orientdb
