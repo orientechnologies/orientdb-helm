@@ -7,7 +7,7 @@ To install, make sure the Kubernetes namespace mentioned in `values.yaml` exists
 helm install helmReleaseName path/to/Orientdb/chart --set image.repository=pxsalehi/orientdb --set image.tag=3.1.2 --set servers=numberOfServers
 ```
 
-You can scale up/down the OrientDB cluster using `upgeade`:
+You can scale up/down the OrientDB cluster using `upgrade`:
 ```
 helm upgrade helmReleaseName path/to/Orientdb/chart --set image.repository=pxsalehi/orientdb --set image.tag=3.1.2 --set servers=differentNumberOfServers
 ```
