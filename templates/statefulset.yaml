@@ -35,7 +35,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.labelValue }}
-        {{ .Values.hazelcast.discoverypodLabel.name }}: {{ .Values.hazelcast.discoverypodLabel.value | quote }}
+        {{ .Values.hazelcast.discovery.podLabel.name }}: {{ .Values.hazelcast.discovery.podLabel.value | quote }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       terminationGracePeriodSeconds: 30

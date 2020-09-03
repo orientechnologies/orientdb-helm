@@ -41,8 +41,8 @@ data:
     		<port auto-increment="false">{{ .Values.hazelcast.network.port }}</port>
     		<join>
     			<kubernetes enabled="true">
-                   <pod-label-name>{{ .Values.hazelcast.discoverypodLabel.name }}</pod-label-name>
-                   <pod-label-value>{{ .Values.hazelcast.discoverypodLabel.value }}</pod-label-value>
+                   <pod-label-name>{{ .Values.hazelcast.discovery.podLabel.name }}</pod-label-name>
+                   <pod-label-value>{{ .Values.hazelcast.discovery.podLabel.value }}</pod-label-value>
                    <service-port>{{ .Values.hazelcast.network.port }}</service-port>
                    <namespace>{{ .Values.namespace }}</namespace>
                 </kubernetes>
@@ -107,8 +107,8 @@ data:
             <handler
                     class="com.orientechnologies.orient.server.handler.OServerSideScriptInterpreter">
                 <parameters>
-                    <parameter name="enabled" value="true"/>
-                    <parameter name="allowedLanguages" value="SQL"/>
+                    <parameter name="enabled" value="{{ .Values.serverSideScript.enabled }}"/>
+                    <parameter name="allowedLanguages" value="{{ join "," .Values.serverSideScript.allowedLanguages }}"/>
                     <!--  Comma separated packages  allowed in JS scripts eg. java.math.*, java.util.ArrayList -->
                     <parameter name="allowedPackages" value=""/>
                 </parameters>
