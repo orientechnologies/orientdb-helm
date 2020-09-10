@@ -41,6 +41,21 @@ serverSideScript:
   allowedLanguages:
     - SQL
 
+network:
+  ssl:
+    clientAuth: false
+    keyStore: cert/orientdb.ks
+    keyStorePassword: password
+    trustStore: cert/orientdb.ks
+    trustStorePassword: password
+
+# security module
+security:
+  enabled: true
+  createDefaultUsers: true
+  auditing:
+    enabled: false
+
 hazelcast:
   network:
     port: 2434

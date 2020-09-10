@@ -126,20 +126,20 @@ data:
             <sockets>
                 <socket implementation="com.orientechnologies.orient.server.network.OServerTLSSocketFactory" name="ssl">
                     <parameters>
-                        <parameter value="false" name="network.ssl.clientAuth"/>
-                        <parameter value="config/cert/orientdb.ks" name="network.ssl.keyStore"/>
-                        <parameter value="password" name="network.ssl.keyStorePassword"/>
-                        <parameter value="config/cert/orientdb.ks" name="network.ssl.trustStore"/>
-                        <parameter value="password" name="network.ssl.trustStorePassword"/>
+                        <parameter value="{{ .Values.network.ssh.clientAuth }}" name="network.ssl.clientAuth"/>
+                        <parameter value="{{ .Values.network.ssh.keyStore }}" name="network.ssl.keyStore"/>
+                        <parameter value="{{ .Values.network.ssh.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
+                        <parameter value="{{ .Values.network.ssh.trustStore }}" name="network.ssl.trustStore"/>
+                        <parameter value="{{ .Values.network.ssh.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
                     </parameters>
                 </socket>
                 <socket implementation="com.orientechnologies.orient.server.network.OServerTLSSocketFactory" name="https">
                     <parameters>
-                        <parameter value="false" name="network.ssl.clientAuth"/>
-                        <parameter value="config/cert/orientdb.ks" name="network.ssl.keyStore"/>
-                        <parameter value="password" name="network.ssl.keyStorePassword"/>
-                        <parameter value="config/cert/orientdb.ks" name="network.ssl.trustStore"/>
-                        <parameter value="password" name="network.ssl.trustStorePassword"/>
+                        <parameter value="{{ .Values.network.ssh.clientAuth }}" name="network.ssl.clientAuth"/>
+                        <parameter value="{{ .Values.network.ssh.keyStore }}" name="network.ssl.keyStore"/>
+                        <parameter value="{{ .Values.network.ssh.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
+                        <parameter value="{{ .Values.network.ssh.trustStore }}" name="network.ssl.trustStore"/>
+                        <parameter value="{{ .Values.network.ssh.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
                     </parameters>
                 </socket>
             </sockets>
@@ -152,8 +152,8 @@ data:
                           implementation="com.orientechnologies.orient.server.network.protocol.http.ONetworkProtocolHttpDb"/>
             </protocols>
             <listeners>
-                <listener protocol="binary" ip-address="0.0.0.0" port-range="2424-2430" socket="default"/>
-                <listener protocol="http" ip-address="0.0.0.0" port-range="2480-2490" socket="default">
+                <listener protocol="binary" ip-address="0.0.0.0" port-range="{{ .Values.binaryPort }}" socket="default"/>
+                <listener protocol="http" ip-address="0.0.0.0" port-range="{{ .Values.httpPort }}" socket="default">
                     <parameters>
                         <!-- Connection's custom parameters. If not specified the global configuration
                             will be taken -->
@@ -236,10 +236,10 @@ data:
     }
   security.json: |
     {
-      "enabled": true,
+      "enabled": {{ .Values.security.enabled }},
       "debug": false,
       "server": {
-        "createDefaultUsers": true
+        "createDefaultUsers": {{ .Values.security.createDefaultUsers }}
       },
       "authentication": {
         "enabled": true,
@@ -270,6 +270,6 @@ data:
       },
       "auditing": {
         "class": "com.orientechnologies.security.auditing.ODefaultAuditing",
-        "enabled": false
+        "enabled": {{ .Values.security.auditing.enabled }}
       }
     }
