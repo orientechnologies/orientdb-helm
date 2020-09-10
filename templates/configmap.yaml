@@ -126,20 +126,20 @@ data:
             <sockets>
                 <socket implementation="com.orientechnologies.orient.server.network.OServerTLSSocketFactory" name="ssl">
                     <parameters>
-                        <parameter value="{{ .Values.network.ssh.clientAuth }}" name="network.ssl.clientAuth"/>
-                        <parameter value="{{ .Values.network.ssh.keyStore }}" name="network.ssl.keyStore"/>
-                        <parameter value="{{ .Values.network.ssh.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
-                        <parameter value="{{ .Values.network.ssh.trustStore }}" name="network.ssl.trustStore"/>
-                        <parameter value="{{ .Values.network.ssh.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
+                        <parameter value="{{ .Values.network.ssl.clientAuth }}" name="network.ssl.clientAuth"/>
+                        <parameter value="{{ .Values.network.ssl.keyStore }}" name="network.ssl.keyStore"/>
+                        <parameter value="{{ .Values.network.ssl.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
+                        <parameter value="{{ .Values.network.ssl.trustStore }}" name="network.ssl.trustStore"/>
+                        <parameter value="{{ .Values.network.ssl.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
                     </parameters>
                 </socket>
                 <socket implementation="com.orientechnologies.orient.server.network.OServerTLSSocketFactory" name="https">
                     <parameters>
-                        <parameter value="{{ .Values.network.ssh.clientAuth }}" name="network.ssl.clientAuth"/>
-                        <parameter value="{{ .Values.network.ssh.keyStore }}" name="network.ssl.keyStore"/>
-                        <parameter value="{{ .Values.network.ssh.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
-                        <parameter value="{{ .Values.network.ssh.trustStore }}" name="network.ssl.trustStore"/>
-                        <parameter value="{{ .Values.network.ssh.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
+                        <parameter value="{{ .Values.network.ssl.clientAuth }}" name="network.ssl.clientAuth"/>
+                        <parameter value="{{ .Values.network.ssl.keyStore }}" name="network.ssl.keyStore"/>
+                        <parameter value="{{ .Values.network.ssl.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
+                        <parameter value="{{ .Values.network.ssl.trustStore }}" name="network.ssl.trustStore"/>
+                        <parameter value="{{ .Values.network.ssl.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
                     </parameters>
                 </socket>
             </sockets>
