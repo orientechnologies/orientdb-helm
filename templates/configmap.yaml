@@ -225,9 +225,9 @@ data:
   automatic-backup.json: |
     {
       "enabled": {{ .Values.automaticBackup.enabled }},
-      "mode": "FULL_BACKUP",
+      "mode": "{{ .Values.automaticBackup.mode }}",
       "exportOptions": "",
-      "delay": "4h",
+      "delay": "{{ .Values.automaticBackup.delay }}",
       "firstTime": "23:00:00",
       "targetDirectory": "backup",
       "targetFileName": "${DBNAME}-${DATE:yyyyMMddHHmmss}.zip",

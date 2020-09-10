@@ -68,6 +68,10 @@ spec:
           mountPath: /orientdb/databases
         - name: config
           mountPath: /orientdb/config
+        {{- if .Values.volumes.backup.mount -}}
+        - name: backup
+          mountPath: /orientdb/backup
+        {{- end -}}
       # OrientDB needs the config files (at least server config) to be modifiable. Mounting directly from the configMap
       # would result in a read-only config folder which can crash the server.
       initContainers:
@@ -102,3 +106,13 @@ spec:
       resources:
         requests:
           storage: {{ .Values.volumes.config.size }}
+  {{- if .Values.volumes.backup.mount -}}
+  - metadata:
+      name: backup
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: {{ .Values.volumes.backup.storageClass }}
+      resources:
+        requests:
+          storage: {{ .Values.volumes.backup.size }}
+  {{- end -}}

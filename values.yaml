@@ -35,6 +35,8 @@ customSqlFunctions:
 
 automaticBackup:
   enabled: false
+  mode: FULL_BACKUP
+  delay: 4h
 
 serverSideScript:
   enabled: true
@@ -44,6 +46,7 @@ serverSideScript:
 network:
   ssl:
     clientAuth: false
+    # must not be under config since config is mounted from a configmap
     keyStore: cert/orientdb.ks
     keyStorePassword: password
     trustStore: cert/orientdb.ks
@@ -97,6 +100,10 @@ serviceAccount:
 
 volumes:
   databases:
+    storageClass: ""
+    size: 2Gi
+  backup:
+    mount: false
     storageClass: ""
     size: 2Gi
   config:
