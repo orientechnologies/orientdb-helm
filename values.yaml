@@ -7,6 +7,11 @@ labelValue: orientdb
 # number of servers in the cluster
 servers: 2
 
+# If provided, the custom labels are also added to all the objects
+# created by the helm chart and also use in selector labels.
+customLabels:
+#  environment: test
+
 httpPort: 2480
 httpNodePort: 30080
 binaryPort: 2424

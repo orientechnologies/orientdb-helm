@@ -3,9 +3,8 @@ kind: Service
 metadata:
   namespace: {{ .Values.namespace }}
   name: {{ .Values.serviceName }}
-  # labels could be a template function call
   labels:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
 spec:
   ports:
   - port: {{ .Values.httpPort }}
@@ -16,7 +15,7 @@ spec:
     name: hazelcast
   clusterIP: None
   selector:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.selectorLabels" . | nindent 4 }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -24,17 +23,17 @@ metadata:
   namespace: {{ .Values.namespace }}
   name: {{ .Values.statefulSetName }}
   labels:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.labelValue }}
+      {{- include "orientdb-helm.selectorLabels" . | nindent 6 }}
   replicas: {{ .Values.servers }}
   serviceName: {{ .Values.serviceName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.labelValue }}
+        {{- include "orientdb-helm.selectorLabels" . | nindent 8 }}
         {{ .Values.hazelcast.discovery.podLabel.name }}: {{ .Values.hazelcast.discovery.podLabel.value | quote }}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
@@ -92,6 +91,7 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: databases
+      {{- include "orientdb-helm.labels" . | nindent 6 }}
     spec:
       accessModes: ["ReadWriteOnce"]
       storageClassName: {{ .Values.volumes.databases.storageClass }}
@@ -100,6 +100,7 @@ spec:
           storage: {{ .Values.volumes.databases.size }}
   - metadata:
       name: config
+      {{- include "orientdb-helm.labels" . | nindent 6 }}
     spec:
       accessModes: ["ReadWriteOnce"]
       storageClassName: {{ .Values.volumes.config.storageClass }}
@@ -109,6 +110,7 @@ spec:
   {{- if .Values.volumes.backup.mount }}
   - metadata:
       name: backup
+      {{- include "orientdb-helm.labels" . | nindent 6 }}
     spec:
       accessModes: ["ReadWriteOnce"]
       storageClassName: {{ .Values.volumes.backup.storageClass }}
