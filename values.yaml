@@ -2,10 +2,16 @@
 namespace: orientdb
 
 statefulSetName: orientdb
+podAnnotations: {}
 serviceName: orientdb
 labelValue: orientdb
 # number of servers in the cluster
 servers: 2
+
+# If provided, the custom labels (in addition to app: {{ .Values.labelValue }}) are also
+# added to all the objects created by the helm chart and also used in the selector labels.
+customLabels:
+#  environment: test
 
 httpPort: 2480
 httpNodePort: 30080
@@ -16,6 +22,21 @@ createRootUser: true
 rootPassword: root
 
 orientdbConfigMapName: orientdb-configmap
+configMapAnnotations: {}
+
+# Resource limit/request applied to OrientDB pods
+resources: {}
+  # If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+tryAvoidingColocation: false
 
 # Log levels: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
 log:
@@ -97,8 +118,9 @@ serviceAccount:
   create: true
   # The name of the service account to use or create.
   name: hazelcast-k8s
+  annotations: {}
 
-volumes:
+volumeClaims:
   databases:
     storageClass: ""
     size: 2Gi
@@ -109,8 +131,10 @@ volumes:
   config:
     storageClass: ""
     size: 100Mi
+  annotations: {}
 
 service:
   nodePort:
     create: true
+  annotations: {}
 

@@ -3,6 +3,12 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.orientdbConfigMapName }}
   namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
+  {{- with .Values.configMapAnnotations }}
+  annotations:
+    {{- toYaml . |  nindent 4 }}
+  {{- end}}
 data:
   hazelcast.xml: |
     <?xml version="1.0" encoding="UTF-8"?>

@@ -5,12 +5,24 @@ kind: ServiceAccount
 metadata:
   name: {{ .Values.serviceAccount.name }}
   namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
+  {{- with .Values.serviceAccount.annotations }}
+  annotations:
+    {{- toYaml . |  nindent 4 }}
+  {{- end}}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
   name: {{ .Values.serviceAccount.name }}-role
   namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
+  {{- with .Values.serviceAccount.annotations }}
+  annotations:
+    {{- toYaml . |  nindent 4 }}
+  {{- end}}
 rules:
 - apiGroups:
   - ""
@@ -26,6 +38,12 @@ kind: RoleBinding
 metadata:
   name: {{ .Values.serviceAccount.name }}-binding
   namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
+  {{- with .Values.serviceAccount.annotations }}
+  annotations:
+    {{- toYaml . |  nindent 4 }}
+  {{- end}}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role

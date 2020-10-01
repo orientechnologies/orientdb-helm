@@ -5,7 +5,11 @@ metadata:
   name: {{ .Values.serviceName }}-service
   namespace: {{ .Values.namespace }}
   labels:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
+  {{- with .Values.service.annotations }}
+  annotations:
+    {{- toYaml . |  nindent 4 }}
+  {{- end}}
 spec:
   type: NodePort
   ports:
@@ -16,5 +20,5 @@ spec:
     port: {{ .Values.httpPort }}
     nodePort: {{ .Values.httpNodePort }}
   selector:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.selectorLabels" . | nindent 4 }}
 {{- end -}}

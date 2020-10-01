@@ -3,9 +3,8 @@ kind: Service
 metadata:
   namespace: {{ .Values.namespace }}
   name: {{ .Values.serviceName }}
-  # labels could be a template function call
   labels:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
 spec:
   ports:
   - port: {{ .Values.httpPort }}
@@ -16,7 +15,7 @@ spec:
     name: hazelcast
   clusterIP: None
   selector:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.selectorLabels" . | nindent 4 }}
 ---
 apiVersion: apps/v1
 kind: StatefulSet
@@ -24,18 +23,22 @@ metadata:
   namespace: {{ .Values.namespace }}
   name: {{ .Values.statefulSetName }}
   labels:
-    app: {{ .Values.labelValue }}
+    {{- include "orientdb-helm.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: {{ .Values.labelValue }}
+      {{- include "orientdb-helm.selectorLabels" . | nindent 6 }}
   replicas: {{ .Values.servers }}
   serviceName: {{ .Values.serviceName }}
   template:
     metadata:
       labels:
-        app: {{ .Values.labelValue }}
+        {{- include "orientdb-helm.selectorLabels" . | nindent 8 }}
         {{ .Values.hazelcast.discovery.podLabel.name }}: {{ .Values.hazelcast.discovery.podLabel.value | quote }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . |  nindent 8 }}
+      {{- end}}
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       terminationGracePeriodSeconds: 30
@@ -63,12 +66,16 @@ spec:
           initialDelaySeconds: 10
           periodSeconds: 20
           failureThreshold: 5
+        {{- with .Values.resources }}
+        resources:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         volumeMounts:
         - name: databases
           mountPath: /orientdb/databases
         - name: config
           mountPath: /orientdb/config
-        {{- if .Values.volumes.backup.mount }}
+        {{- if .Values.volumeClaims.backup.mount }}
         - name: backup
           mountPath: /orientdb/backup
         {{- end }}
@@ -89,30 +96,71 @@ spec:
       - name: orientdb-config-cm-vol
         configMap:
           name: {{ .Values.orientdbConfigMapName }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.tryAvoidingColocation }}
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - {{ .Values.labelValue }}
+                topologyKey: "kubernetes.io/hostname"
+      {{- else }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- end }}
   volumeClaimTemplates:
   - metadata:
       name: databases
+      labels:
+        {{- include "orientdb-helm.labels" . | nindent 8 }}
+      {{- with .Values.volumeClaims.annotations }}
+      annotations:
+        {{- toYaml . |  nindent 8 }}
+      {{- end}}
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: {{ .Values.volumes.databases.storageClass }}
+      storageClassName: {{ .Values.volumeClaims.databases.storageClass }}
       resources:
         requests:
-          storage: {{ .Values.volumes.databases.size }}
+          storage: {{ .Values.volumeClaims.databases.size }}
   - metadata:
       name: config
+      labels:
+        {{- include "orientdb-helm.labels" . | nindent 8 }}
+      {{- with .Values.volumeClaims.annotations }}
+      annotations:
+        {{- toYaml . |  nindent 8 }}
+      {{- end}}
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: {{ .Values.volumes.config.storageClass }}
+      storageClassName: {{ .Values.volumeClaims.config.storageClass }}
       resources:
         requests:
-          storage: {{ .Values.volumes.config.size }}
-  {{- if .Values.volumes.backup.mount }}
+          storage: {{ .Values.volumeClaims.config.size }}
+  {{- if .Values.volumeClaims.backup.mount }}
   - metadata:
       name: backup
+      labels:
+        {{- include "orientdb-helm.labels" . | nindent 8 }}
+      {{- with .Values.volumeClaims.annotations }}
+      annotations:
+        {{- toYaml . |  nindent 8 }}
+      {{- end}}
     spec:
       accessModes: ["ReadWriteOnce"]
-      storageClassName: {{ .Values.volumes.backup.storageClass }}
+      storageClassName: {{ .Values.volumeClaims.backup.storageClass }}
       resources:
         requests:
-          storage: {{ .Values.volumes.backup.size }}
+          storage: {{ .Values.volumeClaims.backup.size }}
   {{- end }}
