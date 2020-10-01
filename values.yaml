@@ -24,6 +24,20 @@ rootPassword: root
 orientdbConfigMapName: orientdb-configmap
 configMapAnnotations: {}
 
+# Resource limit/request applied to OrientDB pods
+resources: {}
+  # If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+tryAvoidingColocation: false
+
 # Log levels: SEVERE, WARNING, INFO, CONFIG, FINE, FINER, FINEST
 log:
   rootLevel: INFO
