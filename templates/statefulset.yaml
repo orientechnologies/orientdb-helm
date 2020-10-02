@@ -42,11 +42,19 @@ spec:
     spec:
       serviceAccountName: {{ .Values.serviceAccount.name }}
       terminationGracePeriodSeconds: 30
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
       - name: orientdb
         command: ["dserver.sh"]
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 10 }}
         ports:
         - containerPort: {{ .Values.httpPort }}
           protocol: TCP
