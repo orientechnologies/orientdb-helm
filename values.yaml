@@ -10,8 +10,9 @@ servers: 2
 
 # If provided, the custom labels (in addition to app: {{ .Values.labelValue }}) are also
 # added to all the objects created by the helm chart and also used in the selector labels.
-customLabels:
+customLabels: {}
 #  environment: test
+#  booleanLabel: '"true"'
 
 httpPort: 2480
 httpNodePort: 30080
@@ -63,8 +64,7 @@ image:
   tag: 3.1.3
   pullPolicy: IfNotPresent
 
-imagePullSecrets:
-  - name: regcred
+imagePullSecrets: []
 
 customSqlFunctions:
   enabled: true
