@@ -37,6 +37,9 @@ resources: {}
   #   memory: 128Mi
 
 nodeSelector: {}
+
+tolerations: []
+
 tryAvoidingColocation: false
 
 podSecurityContext: {}
