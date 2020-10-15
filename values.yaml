@@ -6,7 +6,7 @@ podAnnotations: {}
 serviceName: orientdb
 labelValue: orientdb
 # number of servers in the cluster
-servers: 2
+servers: 3
 
 # If provided, the custom labels (in addition to app: {{ .Values.labelValue }}) are also
 # added to all the objects created by the helm chart and also used in the selector labels.
@@ -157,6 +157,6 @@ volumeClaims:
 
 service:
   nodePort:
-    create: true
+    create: false
   annotations: {}
 
