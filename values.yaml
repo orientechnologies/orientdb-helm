@@ -36,6 +36,10 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+environmentVariables: []
+#- name: ORIENTDB_OPTS_MEMORY
+#  value: "-Xms4G -Xmx4G"
+
 nodeSelector: {}
 
 tolerations: []

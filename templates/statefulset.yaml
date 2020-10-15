@@ -53,6 +53,10 @@ spec:
         command: ["dserver.sh"]
         image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        {{- with .Values.environmentVariables }}
+        env:
+          {{- toYaml . | nindent 10 }}
+        {{- end }}
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
         ports:
