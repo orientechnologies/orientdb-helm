@@ -35,6 +35,7 @@ Some of the parameters that can be changed/passed to the helm chart:
 |`service.nodePort.create`|`false`|Create a `NodePort` service exposing binary and HTTP port of all instances |
 |`tryAvoidingColocation` | `false` | If true, try to spread the OrientDB instances evenly across the cluster nodes |
 |`statefulSetName`|`orientdb`|Name of the StatefulSet created|
+|`security.customSecurityConfigFile`| |If provided, the content of this file is used for `security.json`|
 
 Other configurations that can be set are:
 * Attaching custom labels and annotations to the resources created by the chart.

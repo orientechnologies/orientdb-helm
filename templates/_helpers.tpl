@@ -11,3 +11,10 @@ app: {{ .Values.labelValue }}
 {{- end }}
 {{- end }}
 
+{{- define "orientdb-helm.security-config" -}}
+{{- if .Values.security.customSecurityConfigFile }}
+{{- .Files.Get .Values.security.customSecurityConfigFile }}
+{{- else }}
+{{- tpl (.Files.Get "conf/security.json") . }}
+{{- end }}
+{{- end }}

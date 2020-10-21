@@ -97,6 +97,7 @@ network:
 
 # security module
 security:
+  customSecurityConfigFile:
   enabled: true
   createDefaultUsers: true
   auditing:
