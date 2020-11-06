@@ -65,6 +65,7 @@ log:
   orientLevel: INFO
   # Used for com.orientechnologies.orient.server.distributed.*
   orientDistributedLevel: INFO
+  customLogPropertiesFile:
 
 image:
   repository: orientdb
@@ -80,6 +81,7 @@ automaticBackup:
   enabled: false
   mode: FULL_BACKUP
   delay: 4h
+  customBackupConfigFile:
 
 serverSideScript:
   enabled: true

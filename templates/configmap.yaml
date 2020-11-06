@@ -207,17 +207,7 @@ data:
     </orient-server>
 
   orientdb-server-log.properties: |
-    # Specify the handlers to create in the root logger
-    # (all loggers are children of the root logger)
-    handlers = java.util.logging.ConsoleHandler
-
-    # Set the default logging level for the root logger
-    .level = {{ .Values.log.rootLevel }}
-    com.orientechnologies.level = {{ .Values.log.orientLevel }}
-    com.orientechnologies.orient.server.distributed.level = {{ .Values.log.orientDistributedLevel }}
-
-    # Set the default formatter for new ConsoleHandler instances
-    java.util.logging.ConsoleHandler.formatter = com.orientechnologies.common.log.OAnsiLogFormatter
+    {{- include "orientdb-helm.log-properties" . | nindent 4 }}
   custom-sql-functions.json: |
     {
       "enabled": {{ .Values.customSqlFunctions.enabled }},
@@ -229,16 +219,6 @@ data:
       ]
     }
   automatic-backup.json: |
-    {
-      "enabled": {{ .Values.automaticBackup.enabled }},
-      "mode": "{{ .Values.automaticBackup.mode }}",
-      "exportOptions": "",
-      "delay": "{{ .Values.automaticBackup.delay }}",
-      "firstTime": "23:00:00",
-      "targetDirectory": "backup",
-      "targetFileName": "${DBNAME}-${DATE:yyyyMMddHHmmss}.zip",
-      "compressionLevel": 9,
-      "bufferSize": 1048576
-    }
+    {{- include "orientdb-helm.auto-backup-config" . | nindent 4 }}
   security.json: |
     {{- include "orientdb-helm.security-config" . | nindent 4 }}

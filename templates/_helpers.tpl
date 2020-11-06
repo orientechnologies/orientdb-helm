@@ -18,3 +18,19 @@ app: {{ .Values.labelValue }}
 {{- tpl (.Files.Get "conf/security.json") . }}
 {{- end }}
 {{- end }}
+
+{{- define "orientdb-helm.log-properties" -}}
+{{- if .Values.log.customLogPropertiesFile }}
+{{- .Files.Get .Values.log.customLogPropertiesFile }}
+{{- else }}
+{{- tpl (.Files.Get "conf/orientdb-server-log.properties") . }}
+{{- end }}
+{{- end }}
+
+{{- define "orientdb-helm.auto-backup-config" -}}
+{{- if .Values.automaticBackup.customBackupConfigFile }}
+{{- .Files.Get .Values.automaticBackup.customBackupConfigFile }}
+{{- else }}
+{{- tpl (.Files.Get "conf/automatic-backup.json") . }}
+{{- end }}
+{{- end }}

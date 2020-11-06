@@ -1,0 +1,11 @@
+{
+  "enabled": {{ .Values.automaticBackup.enabled }},
+  "mode": "{{ .Values.automaticBackup.mode }}",
+  "exportOptions": "",
+  "delay": "{{ .Values.automaticBackup.delay }}",
+  "firstTime": "23:00:00",
+  "targetDirectory": "backup",
+  "targetFileName": "${DBNAME}-${DATE:yyyyMMddHHmmss}.zip",
+  "compressionLevel": 9,
+  "bufferSize": 1048576
+}

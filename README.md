@@ -36,6 +36,10 @@ Some of the parameters that can be changed/passed to the helm chart:
 |`tryAvoidingColocation` | `false` | If true, try to spread the OrientDB instances evenly across the cluster nodes |
 |`statefulSetName`|`orientdb`|Name of the StatefulSet created|
 |`security.customSecurityConfigFile`| |If provided, the content of this file is used for `security.json`|
+|`log.customLogPropertiesFile`| |If provided, the content of this file is used for `orientdb-server-log.properties`|
+|`automaticBackup.customBackupConfigFile`| |If provided, the content of this file is used for `automatic-backup.json` to configure automatic backup|
+
+When providing custom config files to the Helm chart, note that Helm cannot access files located outside of the chart directory or under the templates directory.
 
 Other configurations that can be set are:
 * Attaching custom labels and annotations to the resources created by the chart.
