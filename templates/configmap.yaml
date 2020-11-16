@@ -132,26 +132,25 @@ data:
             <sockets>
                 <socket implementation="com.orientechnologies.orient.server.network.OServerTLSSocketFactory" name="ssl">
                     <parameters>
-                        <parameter value="{{ .Values.network.ssl.clientAuth }}" name="network.ssl.clientAuth"/>
-                        <parameter value="{{ .Values.network.ssl.keyStore }}" name="network.ssl.keyStore"/>
-                        <parameter value="{{ .Values.network.ssl.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
-                        <parameter value="{{ .Values.network.ssl.trustStore }}" name="network.ssl.trustStore"/>
-                        <parameter value="{{ .Values.network.ssl.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
+                        <parameter value="{{ .Values.ssl.clientAuth }}" name="network.ssl.clientAuth"/>
+                        <parameter value="{{ .Values.ssl.keyStore }}" name="network.ssl.keyStore"/>
+                        <parameter value="{{ .Values.ssl.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
+                        <parameter value="{{ .Values.ssl.trustStore }}" name="network.ssl.trustStore"/>
+                        <parameter value="{{ .Values.ssl.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
                     </parameters>
                 </socket>
                 <socket implementation="com.orientechnologies.orient.server.network.OServerTLSSocketFactory" name="https">
                     <parameters>
-                        <parameter value="{{ .Values.network.ssl.clientAuth }}" name="network.ssl.clientAuth"/>
-                        <parameter value="{{ .Values.network.ssl.keyStore }}" name="network.ssl.keyStore"/>
-                        <parameter value="{{ .Values.network.ssl.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
-                        <parameter value="{{ .Values.network.ssl.trustStore }}" name="network.ssl.trustStore"/>
-                        <parameter value="{{ .Values.network.ssl.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
+                        <parameter value="{{ .Values.ssl.clientAuth }}" name="network.ssl.clientAuth"/>
+                        <parameter value="{{ .Values.ssl.keyStore }}" name="network.ssl.keyStore"/>
+                        <parameter value="{{ .Values.ssl.keyStorePassword }}" name="network.ssl.keyStorePassword"/>
+                        <parameter value="{{ .Values.ssl.trustStore }}" name="network.ssl.trustStore"/>
+                        <parameter value="{{ .Values.ssl.trustStorePassword }}" name="network.ssl.trustStorePassword"/>
                     </parameters>
                 </socket>
             </sockets>
             <protocols>
-                <!-- Default registered protocol. It reads commands using the HTTP protocol
-                    and write data locally -->
+                <!-- Default registered protocol. It reads commands using the HTTP protocol and write data locally -->
                 <protocol name="binary"
                           implementation="com.orientechnologies.orient.server.network.protocol.binary.ONetworkProtocolBinary"/>
                 <protocol name="http"
@@ -159,10 +158,14 @@ data:
             </protocols>
             <listeners>
                 <listener protocol="binary" ip-address="0.0.0.0" port-range="{{ .Values.binaryPort }}" socket="default"/>
+                {{- if .Values.ssl.enable }}
+                <listener protocol="binary" ip-address="0.0.0.0" port-range="{{ .Values.binarySslPort }}" socket="ssl"/>
+                <listener protocol="http" ip-address="0.0.0.0" port-range="{{ .Values.httpsPort }}" socket="https">
+                {{- else }}
                 <listener protocol="http" ip-address="0.0.0.0" port-range="{{ .Values.httpPort }}" socket="default">
+                {{- end }}
                     <parameters>
-                        <!-- Connection's custom parameters. If not specified the global configuration
-                            will be taken -->
+                        <!-- Connection's custom parameters. If not specified the global configuration will be taken -->
                         <parameter name="network.http.charset" value="utf-8"/>
                         <parameter value="true" name="network.http.jsonResponseError"/>
                         <parameter value="Content-Security-Policy: frame-ancestors 'none'" name="network.http.additionalResponseHeaders"></parameter>

@@ -16,8 +16,12 @@ customLabels: {}
 
 httpPort: 2480
 httpNodePort: 30080
+httpsPort: 2443
+httpsNodePort: 30443
 binaryPort: 2424
 binaryNodePort: 30024
+binarySslPort: 2423
+binarySslNodePort: 30023
 
 createRootUser: true
 rootPassword: root
@@ -88,14 +92,19 @@ serverSideScript:
   allowedLanguages:
     - SQL
 
-network:
-  ssl:
-    clientAuth: false
-    # must not be under config since config is mounted from a configmap
-    keyStore: cert/orientdb.ks
-    keyStorePassword: password
-    trustStore: cert/orientdb.ks
-    trustStorePassword: password
+ssl:
+  enable: false
+  secretName: orientdb-server-ssl
+  secretAnnotations: {}
+  keyStoreFile:
+  trustStoreFile:
+  # Path to store keyStore in the pod
+  # must not be under config since config is mounted from a configmap
+  keyStore: cert/orientdb.ks
+  keyStorePassword: ks-password
+  clientAuth: false
+  trustStore: cert/orientdb.ts
+  trustStorePassword: ts-password
 
 # security module
 security:

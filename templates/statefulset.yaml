@@ -7,10 +7,17 @@ metadata:
     {{- include "orientdb-helm.labels" . | nindent 4 }}
 spec:
   ports:
-  - port: {{ .Values.httpPort }}
-    name: http
   - port: {{ .Values.binaryPort }}
     name: binary
+  {{- if .Values.ssl.enable }}
+  - port: {{ .Values.httpsPort }}
+    name: https
+  - port: {{ .Values.binarySslPort }}
+    name: binary-ssl
+  {{- else }}
+  - port: {{ .Values.httpPort }}
+    name: http
+  {{- end }}
   - port: {{ .Values.hazelcast.network.port }}
     name: hazelcast
   clusterIP: None
@@ -60,10 +67,17 @@ spec:
         securityContext:
           {{- toYaml .Values.securityContext | nindent 10 }}
         ports:
-        - containerPort: {{ .Values.httpPort }}
-          protocol: TCP
         - containerPort: {{ .Values.binaryPort }}
           protocol: TCP
+        {{- if .Values.ssl.enable }}
+        - containerPort: {{ .Values.httpsPort }}
+          protocol: TCP
+        - containerPort: {{ .Values.binarySslPort }}
+          protocol: TCP
+        {{- else }}
+        - containerPort: {{ .Values.httpPort }}
+          protocol: TCP
+        {{- end }}
         - containerPort: {{ .Values.hazelcast.network.port }}
           protocol: TCP
         livenessProbe:
@@ -91,6 +105,10 @@ spec:
         - name: backup
           mountPath: /orientdb/backup
         {{- end }}
+        {{- if .Values.ssl.enable }}
+        - name: orientdb-ssl-secret-vol
+          mountPath: /orientdb/cert
+        {{- end }}
       # OrientDB needs the config files (at least server config) to be modifiable. Mounting directly from the configMap
       # would result in a read-only config folder which can crash the server.
       initContainers:
@@ -108,6 +126,11 @@ spec:
       - name: orientdb-config-cm-vol
         configMap:
           name: {{ .Values.orientdbConfigMapName }}
+      {{- if .Values.ssl.enable }}
+      - name: orientdb-ssl-secret-vol
+        secret:
+          secretName: {{ .Values.ssl.secretName }}
+      {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

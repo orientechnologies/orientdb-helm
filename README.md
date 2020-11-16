@@ -38,6 +38,12 @@ Some of the parameters that can be changed/passed to the helm chart:
 |`security.customSecurityConfigFile`| |If provided, the content of this file is used for `security.json`|
 |`log.customLogPropertiesFile`| |If provided, the content of this file is used for `orientdb-server-log.properties`|
 |`automaticBackup.customBackupConfigFile`| |If provided, the content of this file is used for `automatic-backup.json` to configure automatic backup|
+|`ssl.enable`|`false`|Enable TLS connections to server (HTTPS and binary)|
+|`ssl.keyStoreFile`||Path to keystore file for TLS|
+|`ssl.keyStorePassword`||Password of the provided keystore|
+|`ssl.trustStoreFile`||Path to truststore file for TLS|
+|`ssl.trustStorePassword`||Password of the provided truststore|
+|`ssl.clientAuth`|`false`|Whether to use mutual TLS authentication with clients|
 
 When providing custom config files to the Helm chart, note that Helm cannot access files located outside of the chart directory or under the templates directory.
 
@@ -52,3 +58,5 @@ To do so the service could use a Pod selector similar to the following:
 ```
 "statefulset.kubernetes.io/pod-name": "statefulSetName-0"
 ``` 
+
+To deploy with TLS enabled, you should deploy the chart with `ssl.enable=true` and provide the keystore and truststore files and password. You can find more information on how to setup TLS in the [official OrientDB documentations.](http://orientdb.org/docs/3.1.x/security/Using-SSL-with-OrientDB.html)
