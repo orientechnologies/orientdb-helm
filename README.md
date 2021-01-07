@@ -60,3 +60,5 @@ To do so the service could use a Pod selector similar to the following:
 ``` 
 
 To deploy with TLS enabled, you should deploy the chart with `ssl.enable=true` and provide the keystore and truststore files and password. You can find more information on how to setup TLS in the [official OrientDB documentations.](http://orientdb.org/docs/3.1.x/security/Using-SSL-with-OrientDB.html)
+
+In case there is not enough entropy available on `/dev/random` the startup of the server might block. You could [deploy a haveged daemon](./havegedSetup.md) to address this issue.
