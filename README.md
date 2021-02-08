@@ -1,5 +1,5 @@
 # orientdb-helm
-Helm chart for OrientDB.
+Helm chart for OrientDB (version >= 3.1.3).
 
 To install, make sure the Kubernetes namespace mentioned in `values.yaml` exists and then issue:
 
