@@ -1,7 +1,11 @@
 # orientdb-helm
 Helm chart for OrientDB (version >= 3.1.3).
 
+-----------------------------------------------
+
 **Disclaimer**: This Helm chart is provided to facilitate trying out OrientDB CE on Kubernetes. It is not officially part of the OrientDB release and it is only supported by community contributions. For any issues/questions please use the GitHub Issues.
+
+-----------------------------------------------
 
 To install, make sure the Kubernetes namespace mentioned in `values.yaml` exists and then issue:
 
