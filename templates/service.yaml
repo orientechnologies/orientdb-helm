@@ -16,18 +16,18 @@ spec:
   - name: binary
     port: {{ .Values.binaryPort }}
     nodePort: {{ .Values.binaryNodePort }}
-  {{- if .Values.ssl.enable -}}
+  {{- if .Values.ssl.enable }}
   - name: binary-ssl
     port: {{ .Values.binarySslPort }}
     nodePort: {{ .Values.binarySslNodePort }}
   - name: https
     port: {{ .Values.httpsPort }}
     nodePort: {{ .Values.httpsNodePort }}
-  {{- else -}}
+  {{- else }}
   - name: http
     port: {{ .Values.httpPort }}
     nodePort: {{ .Values.httpNodePort }}
-  {{- end -}}
+  {{- end }}
   selector:
     {{- include "orientdb-helm.selectorLabels" . | nindent 4 }}
 {{- end -}}
