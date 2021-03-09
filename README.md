@@ -3,7 +3,7 @@ Helm chart for OrientDB (version >= 3.1.3).
 
 -----------------------------------------------
 
-**Disclaimer**: This Helm chart is provided to facilitate trying out OrientDB CE on Kubernetes. It is not officially part of the OrientDB release and it is only supported by community contributions. For any issues/questions please use the GitHub Issues.
+> **Disclaimer**: This Helm chart is provided for testing purposes only or trying out OrientDB CE on Kubernetes. This Helm chart is not part of any official OrientDB release and it is only supported by community contributions. For any issues/questions please use the GitHub Issues.
 
 -----------------------------------------------
 
