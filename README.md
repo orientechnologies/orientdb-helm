@@ -51,6 +51,11 @@ Some of the parameters that can be changed/passed to the helm chart:
 |`ssl.trustStorePassword`||Password of the provided truststore|
 |`ssl.clientAuth`|`false`|Whether to use mutual TLS authentication with clients|
 
+To enable running Gremlin queries via OrientDB Studio, you should use an OrientDB distribution with TinkerPop3 support, and enable Gremlin server-side script:
+```
+helm install helm-release-name path/to/Orientdb/chart --set image.tag=3.1.9-tp3 --set "serverSideScript.allowedLanguages={SQL,Gremlin}"
+```
+
 When providing custom config files to the Helm chart, note that Helm cannot access files located outside of the chart directory or under the templates directory.
 
 Other configurations that can be set are:
