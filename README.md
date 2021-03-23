@@ -72,5 +72,5 @@ In case there is not enough entropy available on `/dev/random` the startup of th
 
 **TODOs**
 
-- [ ] add to repository
+- [ ] add helm chart to repository for testing
 
