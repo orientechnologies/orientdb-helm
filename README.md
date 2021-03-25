@@ -47,10 +47,16 @@ Some of the parameters that can be changed/passed to the helm chart:
 |`ssl.trustStorePassword`||Password of the provided truststore|
 |`ssl.clientAuth`|`false`|Whether to use mutual TLS authentication with clients|
 
+## OrientDB and Gremlin / TinkerPop
+
 To enable running Gremlin queries via OrientDB Studio, you should use an OrientDB distribution with TinkerPop3 support, and enable Gremlin server-side script:
 ```
 helm install helm-release-name path/to/Orientdb/chart --set image.tag=3.1.9-tp3 --set "serverSideScript.allowedLanguages={SQL,Gremlin}"
 ```
+
+> Using the helm chart for deploying non-CE OrientDB distributions (e.g., EE, TinkerPop) requires the corresponding docker image to be passed as the parameter to the Helm chart.  For OrientDB with TinkerPop3 an official docker image is provided, e.g. from [here](https://github.com/orientechnologies/orientdb-docker/blob/master/3.0-tp3/x86_64/alpine/gremlin-server.yaml).
+
+## Custom configuration
 
 When providing custom config files to the Helm chart, note that Helm cannot access files located outside of the chart directory or under the templates directory.
 
@@ -59,12 +65,16 @@ Other configurations that can be set are:
 * Defining resource limits and requests.
 * Override default configurations defined in OrientDB configuration files such as `hazelcast.xml`, `orientdb-server-config.xml`, ` default-distributed-db-config.json`, etc.
 
+## Multi-master
+
 OrientDB supports a multi-master (a.k.a. master-less) architecture. Therefore, it might be useful to expose each OrientDB instance in the cluster separately. As all instance are part of the same StatefulSet, one simple approach would to create one service per instance that uses the naming convention of StatefulSets `statefulSetName-0`, `statefulSetName-1`, ... 
 
 To do so the service could use a Pod selector similar to the following:
 ```
 "statefulset.kubernetes.io/pod-name": "statefulSetName-0"
 ``` 
+
+## Security
 
 To deploy with TLS enabled, you should deploy the chart with `ssl.enable=true` and provide the keystore and truststore files and password. You can find more information on how to setup TLS in the [official OrientDB documentations.](http://orientdb.org/docs/3.1.x/security/Using-SSL-with-OrientDB.html)
 
@@ -73,4 +83,5 @@ In case there is not enough entropy available on `/dev/random` the startup of th
 **TODOs**
 
 - [ ] add helm chart to repository for testing
+- [ ] document EE 
 
